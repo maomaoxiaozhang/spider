@@ -33,7 +33,7 @@ public class NetCloudCrawler implements PageProcessor{
     //播放列表页地址
     private String playListUrl = "https://music.163.com//playlist?id=%s";
     //歌曲页地址
-    private String songUrl = "https://music.163.com%s";
+    private String songUrl = "https://music.163.com/song?id=%s";
     //歌词页地址
     private String lyricUrl = "http://music.163.com/api/song/lyric?id=%s&lv=1&kv=1&tv=-1";
     //外链地址
@@ -75,7 +75,7 @@ public class NetCloudCrawler implements PageProcessor{
             Selectable selectable = html.xpath("//div[@id='song-list-pre-cache']/ul/li");
             List<String> urlList = selectable.xpath("/li/a/@href").all();
             for (int i = 0; i < urlList.size(); i++) {
-                page.addTargetRequest(String.format(songUrl, urlList.get(i)));
+                page.addTargetRequest(String.format(songUrl, urlList.get(i).split("=")[1]));
             }
             page.setSkip(true);
         }else if (url.contains("lyric")) {
@@ -171,7 +171,7 @@ public class NetCloudCrawler implements PageProcessor{
     public static void main(String[] args) {
         NetCloudCrawler crawler = new NetCloudCrawler();
         String url = crawler.discoverListUrl;
-//        String url = "https://music.163.com/song?id=40915177";
+//        String url = "https://music.163.com/song?id=186001";
         spider = Spider.create(crawler);
         spider.addUrl(url)
                 .thread(3)

@@ -27,17 +27,24 @@ public class AES {
     private static final String FORTH_PARAM = "0CoJUm6Qyw8W8jud";
     private static final String AES_IV = "0102030405060708";
 
-    public static Params postGetComents(int pageNum) {
+    public static String postGetComents(String url, int pageNum) {
         String firstParam = FIRST_PARAM.replaceAll("offsetNum", pageNum*20+"");
         String temp = AES(AES(firstParam, FORTH_PARAM), "FFFFFFFFFFFFFFFF");
-//        try {
-//            org.jsoup.Connection.Response response = Jsoup.connect("https://music.163.com/weapi/v1/resource/comments/R_SO_4_66842/?csrf_token=")
-//                    .data(ImmutableMap.of("params", temp, "encSecKey", ENCSECKEY))
-//                    .method(org.jsoup.Connection.Method.POST).execute();
-//            System.out.println(response.body());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            org.jsoup.Connection.Response response = Jsoup.connect(url)
+                    .data(ImmutableMap.of("params", temp, "encSecKey", ENCSECKEY))
+                    .method(org.jsoup.Connection.Method.POST).execute();
+            return response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    //得到post需要的参数
+    public static Params postGetParams(int pageNum) {
+        String firstParam = FIRST_PARAM.replaceAll("offsetNum", pageNum * 20 + "");
+        String temp = AES(AES(firstParam, FORTH_PARAM), "FFFFFFFFFFFFFFFF");
         Params params = new Params();
         params.setParams(temp);
         params.setEncSecKey(ENCSECKEY);

@@ -1,5 +1,6 @@
 package pipeline;
 
+import exec.NetCloudComment;
 import exec.NetCloudCrawler;
 import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Task;
@@ -15,7 +16,7 @@ import java.net.URISyntaxException;
  */
 public class PlayMusicPipeline implements Pipeline {
     private static final String CHROME_LOCATION = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe";
-    private static final String OUTCHAIN_URL = "http://music.163.com/outchain/player?type=2&id=%s&auto=1&height=60";
+    private static final String OUTCHAIN_URL = "http://music.163.com/song/media/outer/url?id=%s.mp3&auto=1&height=60";
 
     @Override
     public void process(ResultItems resultItems, Task task) {
@@ -27,7 +28,7 @@ public class PlayMusicPipeline implements Pipeline {
                 ProcessBuilder process = new ProcessBuilder(CHROME_LOCATION, String.format(OUTCHAIN_URL, id));
                 process.start();
                 NetCloudCrawler.spider.stop();
-                System.out.println("over");
+                NetCloudComment.showComments(id);
             } catch (IOException e) {
                 e.printStackTrace();
             }
