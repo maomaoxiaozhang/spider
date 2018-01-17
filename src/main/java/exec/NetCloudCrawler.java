@@ -107,7 +107,6 @@ public class NetCloudCrawler implements PageProcessor{
             }
             lyric.setTransLyrics(transList);
             song.setLyric(lyric);
-//            System.out.println(song);
             page.setSkip(true);
         }else {
             Html html = page.getHtml();
@@ -125,10 +124,9 @@ public class NetCloudCrawler implements PageProcessor{
             song.setAlbum(keywords[2].trim());
             songList.add(song);
             page.addTargetRequest(String.format(lyricUrl, id));
+            page.putField("name", song.getName());
             if (song.getName().contains(name))
-                page.putField("music", song.getId());
-            else
-                page.putField("name", song.getName());
+                page.putField("id", song.getId());
         }
     }
 
@@ -171,7 +169,6 @@ public class NetCloudCrawler implements PageProcessor{
     public static void main(String[] args) {
         NetCloudCrawler crawler = new NetCloudCrawler();
         String url = crawler.discoverListUrl;
-//        String url = "https://music.163.com/song?id=186001";
         spider = Spider.create(crawler);
         spider.addUrl(url)
                 .thread(3)

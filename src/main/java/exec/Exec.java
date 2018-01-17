@@ -27,7 +27,7 @@ public class Exec {
             }
             crawler.setName(name);
             String url = crawler.getDiscoverListUrl();
-//            String url = "https://music.163.com/song?id=66842";
+//            String url = "https://music.163.com/song?id=186001";
             crawler.spider = Spider.create(crawler);
             crawler.spider
                     .addUrl(url)

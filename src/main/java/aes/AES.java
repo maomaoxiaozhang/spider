@@ -32,7 +32,8 @@ public class AES {
         String temp = AES(AES(firstParam, FORTH_PARAM), "FFFFFFFFFFFFFFFF");
         try {
             org.jsoup.Connection.Response response = Jsoup.connect(url)
-                    .data(ImmutableMap.of("params", temp, "encSecKey", ENCSECKEY))
+                    .data("params", temp)
+                    .data("encSecKey", ENCSECKEY)
                     .method(org.jsoup.Connection.Method.POST).execute();
             return response.body();
         } catch (IOException e) {
